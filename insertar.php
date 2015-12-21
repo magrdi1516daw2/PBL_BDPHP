@@ -21,8 +21,6 @@
 <html lang="ca">
 
 <body>
-
-
 <?php
 if (isset($_POST['alumne'])) {
     alumne();
@@ -39,7 +37,6 @@ if (isset($_POST['Modifica_nota'])) {
 if (isset($_POST['alta_assignatura'])) {
     alta_assignatura();
 }
-
 /**
  * Funció alumne
  * Li pasem  per el metode post el codi alumne, nom alumne, data de naixamet
@@ -76,14 +73,12 @@ function alumne(){
     }catch ( Exception $e ) {
         echo"No s'ha pogut insertar l'alumne!";
     }
-
 }
 /**
  * Funció assignatura
  * Li pasem  per el metode post el codi assignatura, nom assignatura, curs
  * Insertem en la base de dades en la taula assignatura un assignatura nou
  */
-
 function assignatura(){
     try{
         $mysqli = new mysqli( "localhost" , "root" , "root" , "escola");
@@ -111,13 +106,11 @@ function assignatura(){
         echo"No s'ha pogut insertar la assignatura!";
     }
 }
-
 /**
  * Funció Elimin_Alum
  * Li pasem  per el metode post el nom del alumne
- * realitzem una consulta per extreure el codi alumne amb aquest codi eliminem l'alumne en qüestió
+ * realitzem una consulta per extreure el codi alumne amb aquest codi eliminem l'alumne en qüestió i mitjançant una transacció eliminem les assignatures que cursa
  */
-
 function Elimin_Alum(){
     try{
         $mysqli = mysqli_connect("localhost","root","root","escola");
@@ -126,7 +119,7 @@ function Elimin_Alum(){
         $sentencia1->bind_param('s',$nom_alumne);
         $sentencia1->bind_result($codi_alumne);
         $sentencia1->execute();
-        //echo $codi_alumne;
+        echo $codi_alumne;
         if ($sentencia1->fetch())
         {
             $codi_alumne =$codi_alumne;
@@ -139,15 +132,20 @@ function Elimin_Alum(){
         }
 
         //echo $codi_assignatura;
+        $gbd -> beginTransaction ();
         $sentencia = $gbd -> prepare ( "DELETE FROM alumne WHERE codi_alumne = :codi_alumne");
+        $sentencia2= $gbd -> prepare ( "DELETE FROM cursen WHERE codi_alumne = :codi_alumne");
         $sentencia -> bindParam (':codi_alumne', $codi_alumne);
+        $sentencia2 -> bindParam (':codi_alumne', $codi_alumne);
         $sentencia -> execute ();
+        $sentencia2 -> execute ();
+        $gbd -> commit ();
         echo"<p>Eliminació correcte</p>";
     }catch ( Exception $e ) {
+        $gbd -> rollBack ();
         echo"No s'ha pogut eliminar l'alumne!";
     }
 }
-
 /**
  * Funció Modi_Nota
  * Li pasem  per el metode post el nom del alumne
@@ -161,7 +159,7 @@ function Modi_Nota(){
         $sentencia1->bind_param('s',$nom_alumne);
         $sentencia1->bind_result($codi_alumne);
         $sentencia1->execute();
-        echo $codi_alumne;
+        //echo $codi_alumne;
         if ($sentencia1->fetch())
         {
             $codi_alumne =$codi_alumne;
@@ -186,16 +184,13 @@ function Modi_Nota(){
     }catch ( Exception $e ) {
         echo"No s'ha pogut modificar la nota!";
     }
-
 }
-
 /**
  * Funció alta_assignatura
  * Li pasem  per el metode post el nom del alumne i el nom de l'assignatura
  * realitzem una consulta per extreure el codi alumne amb aquest codi fem un insert a la taula cursen
  */
 function alta_assignatura(){
-
     try{
         $mysqli = mysqli_connect("localhost","root","root","escola");
         $nom_alumne = $_POST['nom_alta_alumne_assignatura'];
@@ -231,9 +226,6 @@ function alta_assignatura(){
         echo"No s'ha pogut donar d'alta la assignatura!";
     }
 }
-
-
-
 ?>
 
 </body>

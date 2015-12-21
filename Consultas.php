@@ -52,7 +52,7 @@
         $colorSuspesos = '#FF8383'; //fillColorS
 
         $im = new Imagick();
-        $im->newImage(1200, 500, 'White');
+        $im->newImage(1400, 500, 'White');
         $draw = new ImagickDraw();
         $draw->translate(25, 500 - 25);
         //$draw->setFillColor('none');
@@ -60,10 +60,16 @@
         $draw->setStrokeWidth(1);
         $draw->setFont("fonts/Aaargh.ttf");
         $draw->setFontSize(12);
-
+        /**
+         * Dibuixa els eixos x i y
+         *
+         */
         $draw->line(0, 0, 50*count($array_assignatura)+15, 0); //eix x _
         $draw->line(0, 0, 0, -45 * 10); //eix y |
-
+        /**
+         * Dibuixa les linies del eix y
+         *
+         */
         $n=0;
         for ($i = 0; $i <= 45 * 10; $i++){
             if ($i % 45 == 0) {

@@ -88,10 +88,6 @@ spl_autoload_register(function ($classe) {
                 Data naixament:<br>
                 <input id="data_naix" name="data_naix"  type='date'>
 
-               <!-- Assignatura que cursa(Introdueix una assignatura despres podras introduir mes assignatures):<br>
-                <input id="assignatura" type='date'  class='btn btn-primary'>
-                Nota de l'assignatura:<br>
-                <input id="nota" type='date'  class='btn btn-primary'> -->
                 <input id="alumne" name='alumne' type='submit' value='Insertar'><br>
             <small>(Si estas en Mozilla Firefox o Internet Explorer siusplau afegir la data amb format AAAA-MM-DD)</small>
             </div>
