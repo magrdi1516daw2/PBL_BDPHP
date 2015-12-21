@@ -48,8 +48,8 @@
      * Creem el grafic, el guardem i el mostrem
      */
     function dibuixaEixos($array_assignatura, $array_notes){
-        $colorAprobats = '#90EE90'; //fillColorA
-        $colorSuspesos = '#FF8383'; //fillColorS
+        $colorAprobats = '#00cc00'; //fillColorA
+        $colorSuspesos = '#ff0000'; //fillColorS
 
         $im = new Imagick();
         $im->newImage(1400, 500, 'White');
@@ -89,7 +89,7 @@
                     $draw->setFillColor($colorAprobats);
                 }}
             else{
-                $draw->setFillColor('#9999ff');
+                $draw->setFillColor('#0000ff');
             }
             $draw->rectangle($i, 0, $i + 45, -$nota * 45);
             /* Escriu el text */
